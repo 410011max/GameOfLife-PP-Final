@@ -11,7 +11,7 @@ int g_GLUTWindowHandle;
 int g_ErrorCode;
 float y_offset;
 float x_offset;
-float scal = 0.0f;
+float scale = 0.0f;
 
 float rot_x = 0.1f;
 float rot_y = 0.7f;
@@ -26,11 +26,12 @@ Scene g_current = scene1;
 
 void GLScene(int argc, char*argv[])
 {
-	GLScene(900, 900, argc, argv);
+	GLScene(500, 500, argc, argv);
 }
 
 void GLScene(int x, int y, int argc, char*argv[])
 {
+	// Initial Pattern
 	for (int i = 0; i < 100000; i++)
 	{
 		int x = rand() % size + 1;
@@ -38,9 +39,10 @@ void GLScene(int x, int y, int argc, char*argv[])
 		life->setLife(x, y, 1);
 	}
 	newlife3d();
-	cout << glutGet(GLUT_ELAPSED_TIME) << endl;
-	window_height = y;
+	cout << "Initial pattern time: " << glutGet(GLUT_ELAPSED_TIME) << endl;
+	
 	window_width = x;
+	window_height = y;
 
 	glutInit(&argc, argv);
 
@@ -114,8 +116,8 @@ void DisplayGL()
 	if (g_current == 0)
 	{
 		render();
-	}else 
-	if (g_current == 1)
+	}
+	else if (g_current == 1)
 	{
 		render3d();
 	}
@@ -125,16 +127,9 @@ void DisplayGL()
 
 void KeyboardGL(unsigned char c, int x, int y)
 {
-	if (c == ' ')
-	{
-		sim = !sim;
-	}
-	if (c == 'r')
-	{
-		b_rot = !(b_rot);
-	}
-	if (c == '	')
-	{
+	if (c == ' ') sim = !sim;
+	if (c == 'r') b_rot = !(b_rot);
+	if (c == '	') {
 		if (g_current == scene1)
 		{
 			glEnable(GL_DEPTH_TEST);
@@ -150,116 +145,57 @@ void KeyboardGL(unsigned char c, int x, int y)
 			g_current = scene1;
 		}
 	}
-	if (c == 'w')
-	{
-		y_offset = y_offset - 0.1;
-	}
-
-	if (c == 's')
-	{
-		y_offset += 0.1;
-	}
-
-	if (c == 'd')
-	{
-		x_offset -= 0.1;
-	}
-	
-	if (c == 'a')
-	{
-		x_offset += 0.1;
-	}
-	if (c == ',')
-	{
-		scal -= 0.1f;
-	}
-	if (c == 'c')
-	{
-		shade = !shade;
-	}
-
-	if (c == '.')
-	{
-		scal += 0.1f;
-	}
-	if (c == '1')
-	{
+	if (c == 'w') y_offset += 0.1;
+	if (c == 's') y_offset -= 0.1;
+	if (c == 'd') x_offset += 0.1;
+	if (c == 'a') x_offset -= 0.1;
+	if (c == '+') scale += 0.1f;
+	if (c == '-') scale -= 0.1f;
+	if (c == 'c') shade = !shade;
+	if (c == '1') {
 		size = 200;
 		newLife();
 		newlife3d();
 	}
-
-	if (c == '2')
-	{
+	if (c == '2') {
 		size = 200;
 		newLife();
 		newlife3d();
 	}
-	if (c == '3')
-	{
+	if (c == '3') {
 		size = 300;
 		newLife();
 		newlife3d();
 	}
-	if (c == '4')
-	{
+	if (c == '4') {
 		size = 400;
 		newLife();
 		newlife3d();
 	}
-	if (c == '5')
-	{
+	if (c == '5') {
 		size = 500;
 		newLife();
 		newlife3d();
 	}
-	if (c == '6')
-	{
-		size = 600;
-		newLife();
-		newlife3d();
-	}
-	if (c == '7')
-	{
-		size = 700;
-		newLife();
-		newlife3d();
-	}
-	if (c == '8')
-	{
-		size = 800;
-		newLife();
-		newlife3d();
-	}
-	if (c == '9')
-	{
-		size = 900;
-		newLife();
-	}
-	if (c == '!')
-	{
+	if (c == '6') {
 		size = 1000;
 		newLife();
+		// newlife3d();
 	}
-	if (c == '@')
-	{
+	if (c == '7') {
 		size = 2000;
 		newLife();
+		// newlife3d();
 	}
-	if (c == '#')
-	{
+	if (c == '8') {
 		size = 3000;
 		newLife();
+		// newlife3d();
 	}
-	if (c == '$')
-	{
+	if (c == '9') {
 		size = 4000;
 		newLife();
-	}
-	if (c == '%')
-	{
-		size = 5000;
-		newLife();
+		// newlife3d();
 	}
 }
 
@@ -267,10 +203,7 @@ void ReshapeGL(int w, int h)
 {
 	//std::cout << "ReshapGL( " << w << ", " << h << " );" << std::endl;
 
-	if (h == 0)										// Prevent A Divide By Zero error
-	{
-		h = 1;										// Making Height Equal One
-	}
+	h = std::max(h, 1);	 // Prevent A Divide By Zero error
 
 	window_width = w;
 	window_height = h;
@@ -294,12 +227,11 @@ void render()
 	float x_t = 0.0f;
 	float off = 500 / (float)size *0.01f;
 
-	//glScalef(1.0f+scal, 1.0f+scal, 1.0f+scal);
-	glTranslatef(-5.0f + x_offset, -5.0f + y_offset, -9.0f+scal);
-	//glTranslatef(-0.5f, -0.5f, 0.0f);
+
+	glTranslatef(-5.0f + x_offset, -5.0f + y_offset, -9.0f+scale);
+
 	if(shade == false) glColor3f((169.0f / 255.0f), (234.0f / 255.0f), (123.0f / 255.0f));
-	//GLfloat cyan[] = { (169.0f / 255.0f), (234.0f / 255.0f), (123.0f / 255.0f), 1.f };
-	//glMaterialfv(GL_FRONT, GL_DIFFUSE, cyan);
+
 	glBegin(GL_QUADS);
 	for (int i = 0; i < size; i++)
 	{
@@ -325,7 +257,6 @@ void render()
 	{
 		life->update();
 	}
-	
 }
 
 void render3d()
@@ -347,7 +278,7 @@ void render3d()
 		/* clear color and depth buffers */
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glTranslatef(0.0f + x_offset, 0.0f + y_offset, -7.0f + scal);
+		glTranslatef(0.0f + x_offset, 0.0f + y_offset, -7.0f + scale);
 		glRotatef(rot_angle/3, rot_x, rot_y, rot_z);
 		glRotatef(rot_angle/3, rot_z, rot_y, rot_x);
 		glRotatef(rot_angle/3, rot_x, rot_z, rot_y);
@@ -404,12 +335,7 @@ void render3d()
 		glEnd();
 		if (sim == true)
 		{
-			//cout << clock() - time_e << endl;
-			if ((int)(clock() - time_e) > 100 )
-			{
-				time_e = clock();
-				life3d->update();
-			}
+			life3d->update();
 		}
 
 		if (b_rot)
