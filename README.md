@@ -21,17 +21,16 @@ Keyboard Commands:
 
   [1...9] : Simulation Size
   
-  [Shift + 1...5] Larger Simulation Size
-  
   [Tab] : toggle 2D/3D
   
   [Space] : Start/Stop Simulation
   
-  [,],[.] : Zoom in/out
+  [+],[-] : Zoom in/out
   
   [w],[s],[a],[d] : Pan
   
   [r] : toggle rotation
   
-  [s] : toggle shading style
+  [c] : toggle shading style
+
   
