@@ -53,8 +53,8 @@ namespace life3
 			int index = z * width * height + y * width + x;
             new_grid[index] = 0;
             if (m < 3 || m > 5) 	new_grid[index] = 0;		
-            if (m == 4 || m == 5) 	new_grid[index] = grid[index];
-            if (m == 3) 			new_grid[index] = 1;		
+            if (m == 3 || m == 5) 	new_grid[index] = grid[index];
+            if (m == 4) 			new_grid[index] = 1;		
         }
     }
 

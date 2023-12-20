@@ -21,7 +21,7 @@ void GLScene(int, int, int argc, char*argv[]);
 void Cleanup();
 
 void newLife();
-void newlife3d();
+void newLife3d();
 
 void DisplayGL();
 void KeyboardGL(unsigned char c, int x, int y);

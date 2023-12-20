@@ -30,31 +30,22 @@ void GLScene(int argc, char*argv[])
 	GLScene(900, 900, argc, argv);
 }
 
-void GLScene(int x, int y, int argc, char*argv[])
+void GLScene(int width, int height, int argc, char*argv[])
 {
 	// Initial Pattern
-	for (int i = 0; i < 100000; i++)
-	{
-		int x = rand() % size + 1;
-		int y = rand() % size + 1;
-		life->setLife(x, y, 1);
-	}
-	newlife3d();
-	cout << "Initial pattern time: " << glutGet(GLUT_ELAPSED_TIME) << endl;
-	
-	window_width = x;
-	window_height = y;
+	newLife();
+	newLife3d();
+
+	window_width = width;
+	window_height = height;
 
 	glutInit(&argc, argv);
-
 	glutInitWindowPosition(30, 30);
 	glutInitWindowSize(window_width, window_height);
 
 	window_width = glutGet(GLUT_SCREEN_WIDTH);
 	window_height = glutGet(GLUT_SCREEN_HEIGHT);
-
 	glutInitDisplayMode(GLUT_RGBA | GLUT_ALPHA | GLUT_DOUBLE | GLUT_DEPTH);
-
 
 	g_GLUTWindowHandle = glutCreateWindow("Conway's Game of Life");
 	glutInitWindowSize(window_width, window_height);
@@ -63,11 +54,9 @@ void GLScene(int x, int y, int argc, char*argv[])
 	glutKeyboardFunc(KeyboardGL);
 	glutReshapeFunc(ReshapeGL);
 
-
 	glClearColor(0.156f, 0.172f, 0.203f, 1.00f);
 	glClearDepth(1.0f);
 	glShadeModel(GL_SMOOTH);
-
 }
 
 void Cleanup()
@@ -91,22 +80,22 @@ void newLife()
 	life = new Life(size, size);
 	for (int i = 0; i < .6*size*size; i++)
 	{
-		int x = rand() % size + 1;
-		int y = rand() % size + 1;
+		int x = rand() % size;
+		int y = rand() % size;
 		life->setLife(x, y, 1);
 	}
 }
 
-void newlife3d()
+void newLife3d()
 {
 	// ew--calling a destructor
 	life3d->~Life3d();
 	life3d = new Life3d(size / 5, size / 5, size / 5);
 	for (int i = 0; i < .05*(size / 5)*(size / 5)*(size / 5); i++)
 	{
-		int x = rand() % size / 5 + 1;
-		int y = rand() % size / 5 + 1;
-		int z = rand() % size / 5 + 1;
+		int x = rand() % (size / 5);
+		int y = rand() % (size / 5);
+		int z = rand() % (size / 5);
 		life3d->setLife(x, y, z, 1);
 	}
 }
@@ -162,47 +151,47 @@ void KeyboardGL(unsigned char c, int x, int y)
 	if (c == '1') {
 		size = 200;
 		newLife();
-		newlife3d();
+		newLife3d();
 	}
 	if (c == '2') {
 		size = 200;
 		newLife();
-		newlife3d();
+		newLife3d();
 	}
 	if (c == '3') {
 		size = 300;
 		newLife();
-		newlife3d();
+		newLife3d();
 	}
 	if (c == '4') {
 		size = 400;
 		newLife();
-		newlife3d();
+		newLife3d();
 	}
 	if (c == '5') {
 		size = 500;
 		newLife();
-		newlife3d();
+		newLife3d();
 	}
 	if (c == '6') {
 		size = 1000;
 		newLife();
-		// newlife3d();
+		// newLife3d();
 	}
 	if (c == '7') {
 		size = 2000;
 		newLife();
-		// newlife3d();
+		// newLife3d();
 	}
 	if (c == '8') {
 		size = 3000;
 		newLife();
-		// newlife3d();
+		// newLife3d();
 	}
 	if (c == '9') {
 		size = 4000;
 		newLife();
-		// newlife3d();
+		// newLife3d();
 	}
 }
 
@@ -233,7 +222,6 @@ void render()
 	float y_t = 0.0f;
 	float x_t = 0.0f;
 	float off = 500 / (float)size *0.01f;
-
 
 	glTranslatef(-5.0f + x_offset, -5.0f + y_offset, -9.0f+scale);
 

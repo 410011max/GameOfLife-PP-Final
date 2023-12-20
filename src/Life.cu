@@ -4,7 +4,6 @@
 __global__ void kernelUpdate(int width, int height, short* grid, short* new_grid) {
     int x = blockIdx.x * blockDim.x + threadIdx.x + 1;
     int y = blockIdx.y * blockDim.y + threadIdx.y + 1;
-
     if (x <= width && y <= height) {
         // int m = getNeighbors(x, y, 1);
         int m = 0;
@@ -31,7 +30,7 @@ void Life::update()
 
     short* d_grid;
 	short* d_new_grid;
-    
+
     // Allocate memory
     cudaMalloc((void**)&d_grid, worldSize * sizeof(short));
     cudaMalloc((void**)&d_new_grid, worldSize * sizeof(short));
