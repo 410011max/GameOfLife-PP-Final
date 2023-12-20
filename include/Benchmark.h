@@ -10,3 +10,4 @@ double Pthread_test();
 double OpenMP_test();
 double MPI_test();
 double CUDA_test();
+double CUDA_1memcpy_test();

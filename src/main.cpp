@@ -19,11 +19,10 @@ using std::endl;
 
 int main()
 {
-	printf("MPI Time: %.2f ms\n", MPI_test());
-	printf("Serial Time: %.2f ms\n", Serial_test());
-	printf("MPI Time: %.2f ms\n", MPI_test());
 	printf("Serial Time: %.2f ms\n", Serial_test());
 	printf("Pthread Time: %.2f ms\n", Pthread_test());
 	printf("OpenMP Time: %.2f ms\n", OpenMP_test());
+	// printf("MPI Time: %.2f ms\n", MPI_test());
 	printf("CUDA Time: %.2f ms\n", CUDA_test());
+	printf("CUDA_1memcpy Time: %.2f ms\n", CUDA_1memcpy_test());
 }
