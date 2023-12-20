@@ -1,3 +1,5 @@
+#include <chrono>
+#include <iostream>
 #include "GLScene.h"
 
 int size = 500;
@@ -323,7 +325,20 @@ void render()
 	glPopMatrix();
 	if (sim == true)
 	{
+		auto start = std::chrono::high_resolution_clock::now();
 		life->update();
+		auto end = std::chrono::high_resolution_clock::now();
+
+		std::chrono::duration<double, std::milli> elapsed = end - start;
+    	// std::cout << "Update time: " << elapsed.count() << " ms\n";
+		total_time += elapsed.count();
+		cnt ++;
+
+		if (cnt % MAX_CNT == 0 && cnt != 0){
+			cout << total_time / MAX_CNT << " ms\n";
+			cnt = 0;
+			total_time = 0.0;
+		}
 	}
 	
 }
