@@ -2,7 +2,7 @@
 #include "pthread.h"
 #include "iostream"
 
-const unsigned int numThreads = 4;
+const unsigned int numThreads = 8;
 
 struct ThreadData {
 	int idx;
