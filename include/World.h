@@ -17,7 +17,7 @@ protected:
 	unsigned int height;
 
 	int getNewLife(int x, int y);
-	void setNewLife(int x, int y, int val);
+	//void setNewLife(int x, int y, int val);
 	void swapGrids();
 
 public:
@@ -25,12 +25,15 @@ public:
 	~World();
 
 	int getNeighbors(int, int, int);
+	int getWidth();
+	int getHeight();
 
 	int getLifeform(int x, int y);
 	void setLife(int x, int y, int val);
 	virtual void update(){ }
 
 	void print();
+	void setNewLife(int x, int y, int val);
 };
 
 #endif

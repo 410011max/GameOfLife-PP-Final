@@ -4,14 +4,13 @@ case "$1" in
         mkdir -p build
         cd build
         cmake ..
-        make
         ;;
     "clean")
         rm -rf build
         ;;
     "run")
         cd build
-        ./src/Conway
+        make clean; make; ./src/Conway
         ;;
     *)
         echo "Usage: $0 {clean|run|build}"

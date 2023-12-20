@@ -19,6 +19,14 @@ World::~World(){
 	free(grid); free(new_grid); 
 }
 
+int World::getWidth(){ 
+	return width; 
+}
+
+int World::getHeight(){ 
+	return height; 
+}
+
 int World::getNewLife(int x, int y)
 { 
 	return grid[x*(width + 2) + y]; 
