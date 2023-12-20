@@ -1,7 +1,7 @@
 #include "Benchmark.h"
 
-const int size = 500;
-const int itration = 1000; 
+const int size = 5000;
+const int itration = 100; 
 Life_serial* life_serial = new Life_serial(size, size);
 Life_pthread* life_pthread = new Life_pthread(size, size);
 Life_openmp* life_openmp = new Life_openmp(size, size);
@@ -22,6 +22,7 @@ double Serial_test()
 
     double start = static_cast<double>(clock()) / CLOCKS_PER_SEC;
     for (int i = 0; i < itration; i++) life_serial->update();
+    // life_serial->update();
     double end = static_cast<double>(clock()) / CLOCKS_PER_SEC;
     return (end - start) * 1000;
 }
@@ -93,9 +94,9 @@ double CUDA_test()
     }
 
     double start = static_cast<double>(clock()) / CLOCKS_PER_SEC;
-    for (int i = 0; i < itration; i++)  life_cuda->update(1);
+    life_cuda->update(1);
     double end = static_cast<double>(clock()) / CLOCKS_PER_SEC;
-    return (end - start) * 1000;
+    return (end - start) * 1000 * itration;
 }
 
 double CUDA_1memcpy_test()
