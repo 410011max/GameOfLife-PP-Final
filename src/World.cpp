@@ -6,8 +6,8 @@ World::World(int w, int h)
 	width = w;
 	height = h;
 	worldSize = width * height;
-	grid = (short *)malloc(worldSize*sizeof(short));
-	new_grid = (short *)malloc(worldSize*sizeof(short));
+	grid = (uint8_t *)malloc(worldSize*sizeof(uint8_t));
+	new_grid = (uint8_t *)malloc(worldSize*sizeof(uint8_t));
 
 	for (int i = 0; i < worldSize; i++)
 	{

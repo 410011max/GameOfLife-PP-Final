@@ -11,8 +11,8 @@ using std::endl;
 class World
 {
 protected:
-	short* grid;
-	short* new_grid;
+	uint8_t* grid;
+	uint8_t* new_grid;
 	int width;
 	int height;
 	int worldSize;
