@@ -18,9 +18,9 @@ __global__ void kernelUpdate(int width, int height, short* grid, short* new_grid
         m += grid[(x - 1)*width + (y + 1)];
         
         int index = x*width + y;
-        if (m == 3)             new_grid[index] = 1;            // setNewLife(x, y, 1);
-        if (m == 2)             new_grid[index] = grid[index];  // setNewLife(x, y, getLifeform(x, y));
-        if (m != 3 && m != 2)   new_grid[index] = 0;            // setNewLife(x, y, 0);
+        new_grid[index] = 0;
+        if (m == 3)             new_grid[index] = 1;          
+        if (m == 2)             new_grid[index] = grid[index];
     }
 }
 
@@ -32,7 +32,6 @@ void Life::update()
     short* d_grid;
 	short* d_new_grid;
     
-    int time = clock();
     // Allocate memory
     cudaMalloc((void**)&d_grid, worldSize * sizeof(short));
     cudaMalloc((void**)&d_new_grid, worldSize * sizeof(short));
@@ -46,9 +45,6 @@ void Life::update()
     // Free allocated memory
     cudaFree(d_grid);
     cudaFree(d_new_grid);
-
-    time = clock() - time;
-    printf("Time: %d\n", time);
 
     swapGrids();
 }

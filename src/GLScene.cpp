@@ -2,8 +2,8 @@
 
 int size = 500;
 
-Life3d * life3d = new Life3d(size / 5, size / 5, size / 5);
-Life * life = new Life(size, size);
+Life3d *life3d = new Life3d(size / 5, size / 5, size / 5);
+Life *life = new Life(size, size);
 
 int window_width;
 int window_height;
@@ -20,13 +20,14 @@ float rot_angle = 0.1f;
 bool b_rot = true;
 bool sim = true;
 bool shade = false;
-int time_e = clock();
+int frame = 0;
+double total_update_time = 0;
 
 Scene g_current = scene1;
 
 void GLScene(int argc, char*argv[])
 {
-	GLScene(500, 500, argc, argv);
+	GLScene(900, 900, argc, argv);
 }
 
 void GLScene(int x, int y, int argc, char*argv[])
@@ -123,6 +124,12 @@ void DisplayGL()
 	}
 	glutSwapBuffers();
 	glutPostRedisplay();
+	frame += 1;
+	if (frame % 100 == 0)
+	{
+		printf("[Frame %d~%d]\tUpdate time: %.2f (ms)\n", frame - 100, frame, total_update_time * 1e3);
+		total_update_time = 0;
+	}
 }
 
 void KeyboardGL(unsigned char c, int x, int y)
@@ -253,10 +260,16 @@ void render()
 	}
 	glEnd();
 	glPopMatrix();
+
+	double start = 0.;
+	double end = 0;
 	if (sim == true)
 	{
+		start = static_cast<double>(clock()) / CLOCKS_PER_SEC;
 		life->update();
+		end = static_cast<double>(clock()) / CLOCKS_PER_SEC;
 	}
+	total_update_time += (end - start);
 }
 
 void render3d()
@@ -341,11 +354,10 @@ void render3d()
 		if (b_rot)
 		{
 			rot_angle++;
-			rot_x = ((int)((rot_x + 1.0f) * 10.0f) % 10)/10.0f;
+			rot_x = ((int)((rot_x + 1.0f) * 10.0f) % 10) / 10.0f;
 			rot_y = ((int)((rot_y + 1.0f) * 10.0f) % 10) / 10.0f;
 			rot_z = ((int)((rot_z + 1.0f) * 10.0f) % 10) / 10.0f;
 		}
 		glPopMatrix();
 	}
 }
-
