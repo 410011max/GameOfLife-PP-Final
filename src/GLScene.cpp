@@ -21,8 +21,9 @@ bool b_rot = true;
 bool sim = true;
 bool shade = false;
 int time_e = clock();
-double time_sec_start = static_cast<double>(time_e) / CLOCKS_PER_SEC;
+
 int frame = 0;
+double total_update_time = 0;
 
 Scene g_current = scene1;
 
@@ -120,10 +121,10 @@ void DisplayGL()
 	glutSwapBuffers();
 	glutPostRedisplay();
 	frame += 1;
-	if (!(frame % 10)){
-		double time_sec_end = static_cast<double>(clock()) / CLOCKS_PER_SEC;
-		cout << "[Frame " << frame << "] elapse time:" << (time_sec_end - time_sec_start) << endl;
-		time_sec_start = time_sec_end;
+	if (frame % 100 == 0)
+	{
+		printf("[Frame %d~%d]\tUpdate time: %.2f (ms)\n", frame - 100, frame, total_update_time * 1e3);
+		total_update_time = 0;
 	}
 }
 
@@ -292,7 +293,8 @@ void ReshapeGL(int w, int h)
 
 void render()
 {
-	//cout << "render():" << clock() - time_e << endl;
+	double start = 0.;
+	double end = 0;
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	float y_t = 0.0f;
@@ -328,13 +330,16 @@ void render()
 	}
 	glEnd();
 	glPopMatrix();
-	//cout << "323" << endl;
-	//sim = true;
+	// cout << "323" << endl;
+	// sim = true;
 	if (sim == true)
 	{
-		//cout << "(render)update" << endl;
+		// cout << "(render)update" << endl;
+		start = static_cast<double>(clock()) / CLOCKS_PER_SEC;
 		life->update();
+		end = static_cast<double>(clock()) / CLOCKS_PER_SEC;
 	}
+	total_update_time += (end - start);
 }
 
 void render3d()
@@ -425,12 +430,16 @@ void render3d()
 		glEnd();
 		if (sim == true)
 		{
-			//cout << clock() - time_e << endl;
+			// cout << clock() - time_e << endl;
+			double start = 0.;
+			double end = 0;
 			if ((int)(clock() - time_e) > 100)
 			{
-				time_e = clock();
+				start = static_cast<double>(clock()) / CLOCKS_PER_SEC;
 				life3d->update();
+				end = static_cast<double>(clock()) / CLOCKS_PER_SEC;
 			}
+			total_update_time += (end - start);
 		}
 
 		if (b_rot)

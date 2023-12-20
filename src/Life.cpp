@@ -31,6 +31,7 @@ void* updateThread(void* arg) {
 
 	return NULL;
 }
+
 void Life::update() {
 	pthread_t threads[numThreads];
 	ThreadData threadData[numThreads];
