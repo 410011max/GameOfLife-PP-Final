@@ -238,7 +238,7 @@ void render()
 		x_t = 0.0f;
 		for (int j = 0; j < size; j++)
 		{
-			if (life->getLifeform(j + 1, i + 1) == 1)
+			if (life->getLifeform(j, i) == 1)
 			{
 				if (shade == true) glColor3f(((float)i / (float)size), ((float)j / (float)size), 1.0f);
 				glVertex2f(x_t - off, y_t + off);
@@ -247,7 +247,7 @@ void render()
 				glVertex2d(x_t - off, y_t - off);
 			}
 
-			x_t += (500/(float)size) * 0.02f;
+			x_t += (500 / (float)size) * 0.02f;
 		}
 		y_t += (500 / (float)size) *0.02f;
 	}

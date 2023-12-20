@@ -5,14 +5,11 @@ World::World(int w, int h)
 {
 	width = w;
 	height = h;
-	worldSize = width*height;
+	worldSize = width * height;
 	grid = (short *)malloc(worldSize*sizeof(short));
 	new_grid = (short *)malloc(worldSize*sizeof(short));
 
-	// memset(grid, 0, worldSize*sizeof(short));
-	// memset(new_grid, 0, worldSize*sizeof(short));
-
-	for (unsigned int i = 0; i < worldSize; i++)
+	for (int i = 0; i < worldSize; i++)
 	{
 		grid[i] = 0;
 		new_grid[i] = 0;
@@ -25,12 +22,12 @@ World::~World(){
 
 int World::getNewLife(int x, int y)
 { 
-	return grid[x*(width + 2) + y]; 
+	return grid[x*width + y]; 
 }
 
 void World::setNewLife(int x, int y, int val)
 { 
-	new_grid[x*(width + 2) + y] = val; 
+	new_grid[x*width + y] = val; 
 }
 
 void World::swapGrids()
@@ -38,39 +35,39 @@ void World::swapGrids()
 	std::swap(grid, new_grid);
 }
 
-int World::getNeighbors(int x, int y, int val)
+int World::getNeighbors(int x, int y)
 {
 	int count = 0;
-
-	count += grid[(x - 1)*(width + 2) + (y)];
-	count += grid[(x)*(width + 2) + (y - 1)];
-	count += grid[(x - 1)*(width + 2) + (y - 1)];
-	count += grid[(x + 1)*(width + 2) + (y)];
-
-	count += grid[(x)*(width + 2) + (y + 1)];
-	count += grid[(x + 1)*(width + 2) + (y + 1)];
-	count += grid[(x + 1)*(width + 2) + (y - 1)];
-	count += grid[(x - 1)*(width + 2) + (y + 1)];
+	if (x > 0 && (x < width - 1) && y > 0 && (y < height - 1)) {
+		count += grid[(x - 1)*width + (y    )];
+		count += grid[(x    )*width + (y - 1)];
+		count += grid[(x - 1)*width + (y - 1)];
+		count += grid[(x + 1)*width + (y    )];
+		count += grid[(x    )*width + (y + 1)];
+		count += grid[(x + 1)*width + (y + 1)];
+		count += grid[(x + 1)*width + (y - 1)];
+		count += grid[(x - 1)*width + (y + 1)];
+	}
 	
 	return count;
 }
 
 int World::getLifeform(int x, int y)
 { 
-	return grid[x*(width + 2) + y];
+	return grid[x*width + y]; 
 }
 
 void World::setLife(int x, int y, int val)
 { 
-	grid[x*(width + 2) + y] = val; 
+	grid[x*width + y] = val; 
 }
 
 void World::print()
 {
-	for (unsigned int i = 1; i <= height; i++)
+	for (int i = 0; i < height; i++)
 	{
 		cout << endl;
-		for (unsigned int j = 1; j <= width; j++)
+		for (int j = 0; j < width; j++)
 		{
 			cout << getLifeform(j, i) << " ";
 		}

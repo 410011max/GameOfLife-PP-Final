@@ -25,7 +25,7 @@ public:
 	World(int, int);
 	~World();
 
-	int getNeighbors(int, int, int);
+	int getNeighbors(int x, int y);
 
 	int getLifeform(int x, int y);
 	void setLife(int x, int y, int val);
