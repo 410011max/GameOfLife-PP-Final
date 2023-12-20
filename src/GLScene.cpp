@@ -294,7 +294,7 @@ void render3d()
 				x_t = 0.0f;
 				for (int k = 0; k < size / 5; k++)
 				{
-					if (life3d->getLifeform(k + 1, j + 1, i + 1) == 1)
+					if (life3d->getLifeform(k, j, i) == 1)
 					{
 						if (shade == true)
 						{

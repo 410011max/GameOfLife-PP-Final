@@ -13,9 +13,10 @@ namespace world3
 	protected:
 		short* grid;
 		short* new_grid;
-		unsigned int width;
-		unsigned int height;
-		unsigned int depth;
+		int width;
+		int height;
+		int depth;
+		int worldSize;
 
 		int getNewLife(int x, int y, int z);
 		void setNewLife(int x, int y, int z, int val);
@@ -25,7 +26,7 @@ namespace world3
 		World3d(int, int, int);
 		~World3d();
 
-		int getNeighbors(int, int, int, int);
+		int getNeighbors(int, int, int);
 
 		int getLifeform(int x, int y, int z);
 		void setLife(int x, int y, int z, int val);

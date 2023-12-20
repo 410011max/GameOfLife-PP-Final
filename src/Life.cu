@@ -17,15 +17,10 @@ __global__ void kernelUpdate(int width, int height, short* grid, short* new_grid
         m += grid[(x + 1)*width + (y - 1)];
         m += grid[(x - 1)*width + (y + 1)];
         
-        if (m == 3)
-            new_grid[x*width + y] = 1;
-            // setNewLife(x, y, 1);
-        if (m == 2)
-            new_grid[x*width + y] = grid[x*width + y];
-            // setNewLife(x, y, getLifeform(x, y));
-        if (m != 3 && m != 2)
-            new_grid[x*width + y] = 0;
-            // setNewLife(x, y, 0);
+        int index = x*width + y;
+        if (m == 3)             new_grid[index] = 1;            // setNewLife(x, y, 1);
+        if (m == 2)             new_grid[index] = grid[index];  // setNewLife(x, y, getLifeform(x, y));
+        if (m != 3 && m != 2)   new_grid[index] = 0;            // setNewLife(x, y, 0);
     }
 }
 
@@ -36,19 +31,24 @@ void Life::update()
 
     short* d_grid;
 	short* d_new_grid;
-
+    
+    int time = clock();
     // Allocate memory
-    cudaHostRegister(grid, worldSize*sizeof(short), cudaHostRegisterMapped);
-    cudaHostGetDevicePointer(&d_grid, grid, 0);
-    cudaHostRegister(new_grid, worldSize*sizeof(short), cudaHostRegisterMapped);
-    cudaHostGetDevicePointer(&d_new_grid, new_grid, 0);
+    cudaMalloc((void**)&d_grid, worldSize * sizeof(short));
+    cudaMalloc((void**)&d_new_grid, worldSize * sizeof(short));
+
+    cudaMemcpy(d_grid, grid, worldSize * sizeof(short), cudaMemcpyHostToDevice);
 
     kernelUpdate<<<gridDim, blockDim>>>(width, height, d_grid, d_new_grid);
 
-    cudaDeviceSynchronize();
-    // Free allocated memory
-    cudaHostUnregister(grid);
-    cudaHostUnregister(new_grid);
+    cudaMemcpy(new_grid, d_new_grid, worldSize * sizeof(short), cudaMemcpyDeviceToHost);
 
-	swapGrids();
+    // Free allocated memory
+    cudaFree(d_grid);
+    cudaFree(d_new_grid);
+
+    time = clock() - time;
+    printf("Time: %d\n", time);
+
+    swapGrids();
 }
