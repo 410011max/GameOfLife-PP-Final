@@ -2,7 +2,11 @@
 #include <iostream>
 #include "GLScene.h"
 
+#define MAX_CNT 1000
+
 int size = 500;
+int cnt = 0;
+float total_time = 0.0;
 
 Life3d * life3d = new Life3d(size / 5, size / 5, size / 5);
 Life * life = new Life(size, size);

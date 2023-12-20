@@ -1,4 +1,12 @@
 # GameOfLife
+Start
+```
+mkdir build; cd build  
+cmake ..  
+make  
+./src/Conway
+```
+
 A fast, C++ OpenGL implementation of Conway's Game of Life. Now includes a 3D version!
 
 ![](http://i.imgur.com/wuedsKw.png)
