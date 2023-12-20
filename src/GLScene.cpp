@@ -1,6 +1,15 @@
+#include <chrono>
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <sstream>
 #include "GLScene.h"
 
-int size = 500;
+#define MAX_CNT 20
+bool sim = true;
+int size = 200;
+int cnt = 0;
+float total_time = 0.0;
 
 Life3d *life3d = new Life3d(size / 5, size / 5, size / 5);
 Life *life = new Life(size, size);
@@ -18,12 +27,9 @@ float rot_y = 0.7f;
 float rot_z = 0.3f;
 float rot_angle = 0.1f;
 bool b_rot = true;
-bool sim = true;
+
 bool shade = false;
 int time_e = clock();
-
-int frame = 0;
-double total_update_time = 0;
 
 Scene g_current = scene1;
 
@@ -34,14 +40,33 @@ void GLScene(int argc, char *argv[])
 
 void GLScene(int x, int y, int argc, char *argv[])
 {
+	std::string filename = "../all.txt";
+	std::ifstream file(filename);
+	if (!file) {
+        std::cerr << "Failed to open file: " << filename << std::endl;
+        return;
+    }
+    std::string line, xx, yy;
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+		int locX, locY;
+		getline(ss, xx, ',');
+		getline(ss, yy);
+		locX = stoi(xx);
+		locY = stoi(yy);
+		std::printf("%d,%d\n",locX,locY);
+		life->setLife(locX, locY, 1);
+    }
+	/*
 	for (int i = 0; i < 100000; i++)
 	{
 		int x = rand() % size + 1;
 		int y = rand() % size + 1;
 		life->setLife(x, y, 1);
 	}
+	*/
 	newlife3d();
-	cout << "Start time:" << glutGet(GLUT_ELAPSED_TIME) << endl;
+	cout << glutGet(GLUT_ELAPSED_TIME) << endl;
 	window_height = y;
 	window_width = x;
 
@@ -55,7 +80,7 @@ void GLScene(int x, int y, int argc, char *argv[])
 
 	glutInitDisplayMode(GLUT_RGBA | GLUT_ALPHA | GLUT_DOUBLE | GLUT_DEPTH);
 
-	g_GLUTWindowHandle = glutCreateWindow("(Pthread)Conway's Game of Life");
+	g_GLUTWindowHandle = glutCreateWindow("Conway's Game of Life");
 	glutInitWindowSize(window_width, window_height);
 
 	glutDisplayFunc(DisplayGL);
@@ -120,12 +145,6 @@ void DisplayGL()
 	}
 	glutSwapBuffers();
 	glutPostRedisplay();
-	frame += 1;
-	if (frame % 100 == 0)
-	{
-		printf("[Frame %d~%d]\tUpdate time: %.2f (ms)\n", frame - 100, frame, total_update_time * 1e3);
-		total_update_time = 0;
-	}
 }
 
 void KeyboardGL(unsigned char c, int x, int y)
@@ -293,8 +312,6 @@ void ReshapeGL(int w, int h)
 
 void render()
 {
-	double start = 0.;
-	double end = 0;
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	float y_t = 0.0f;
@@ -330,16 +347,24 @@ void render()
 	}
 	glEnd();
 	glPopMatrix();
-	// cout << "323" << endl;
-	// sim = true;
 	if (sim == true)
 	{
-		// cout << "(render)update" << endl;
-		start = static_cast<double>(clock()) / CLOCKS_PER_SEC;
+		auto start = std::chrono::high_resolution_clock::now();
 		life->update();
-		end = static_cast<double>(clock()) / CLOCKS_PER_SEC;
+		auto end = std::chrono::high_resolution_clock::now();
+
+		std::chrono::duration<double, std::milli> elapsed = end - start;
+		// std::cout << "Update time: " << elapsed.count() << " ms\n";
+		total_time += elapsed.count();
+		cnt++;
+
+		if (cnt % MAX_CNT == 0 && cnt != 0)
+		{
+			cout << total_time / MAX_CNT << " ms\n";
+			cnt = 0;
+			total_time = 0.0;
+		}
 	}
-	total_update_time += (end - start);
 }
 
 void render3d()
@@ -431,15 +456,11 @@ void render3d()
 		if (sim == true)
 		{
 			// cout << clock() - time_e << endl;
-			double start = 0.;
-			double end = 0;
 			if ((int)(clock() - time_e) > 100)
 			{
-				start = static_cast<double>(clock()) / CLOCKS_PER_SEC;
+				time_e = clock();
 				life3d->update();
-				end = static_cast<double>(clock()) / CLOCKS_PER_SEC;
 			}
-			total_update_time += (end - start);
 		}
 
 		if (b_rot)
