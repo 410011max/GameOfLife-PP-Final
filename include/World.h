@@ -13,8 +13,9 @@ class World
 protected:
 	short* grid;
 	short* new_grid;
-	unsigned int width;
-	unsigned int height;
+	int width;
+	int height;
+	int worldSize;
 
 	int getNewLife(int x, int y);
 	void setNewLife(int x, int y, int val);

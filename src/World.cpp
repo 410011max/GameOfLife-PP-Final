@@ -5,10 +5,14 @@ World::World(int w, int h)
 {
 	width = w;
 	height = h;
-	grid = (short *)malloc((width + 2)*(height + 2)*sizeof(short));
-	new_grid = (short *)malloc((width + 2)*(height + 2)*sizeof(short));
+	worldSize = width*height;
+	grid = (short *)malloc(worldSize*sizeof(short));
+	new_grid = (short *)malloc(worldSize*sizeof(short));
 
-	for (unsigned int i = 0; i < (width + 2)*(height + 2); i++)
+	// memset(grid, 0, worldSize*sizeof(short));
+	// memset(new_grid, 0, worldSize*sizeof(short));
+
+	for (unsigned int i = 0; i < worldSize; i++)
 	{
 		grid[i] = 0;
 		new_grid[i] = 0;
@@ -38,22 +42,22 @@ int World::getNeighbors(int x, int y, int val)
 {
 	int count = 0;
 
-	count += grid[(x-1)*(width + 2) + (y)];
-	count += grid[(x)*(width + 2) + (y-1)];
-	count += grid[(x - 1)*(width + 2) + (y-1)];
+	count += grid[(x - 1)*(width + 2) + (y)];
+	count += grid[(x)*(width + 2) + (y - 1)];
+	count += grid[(x - 1)*(width + 2) + (y - 1)];
 	count += grid[(x + 1)*(width + 2) + (y)];
 
-	count += grid[(x)*(width + 2) + (y+1)];
-	count += grid[(x+1)*(width + 2) + (y+1)];
-	count += grid[(x+1)*(width + 2) + (y-1)];
-	count += grid[(x - 1)*(width + 2) + (y+1)];
+	count += grid[(x)*(width + 2) + (y + 1)];
+	count += grid[(x + 1)*(width + 2) + (y + 1)];
+	count += grid[(x + 1)*(width + 2) + (y - 1)];
+	count += grid[(x - 1)*(width + 2) + (y + 1)];
 	
 	return count;
 }
 
 int World::getLifeform(int x, int y)
 { 
-	return grid[x*(width + 2) + y]; 
+	return grid[x*(width + 2) + y];
 }
 
 void World::setLife(int x, int y, int val)
