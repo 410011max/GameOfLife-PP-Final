@@ -7,8 +7,7 @@ case "$1" in
         rm -rf build
         ;;
     "run")
-        cd build
-        make clean; make; ./src/Conway
+        cd build; make clean; make; ./src/Conway
         ;;
     *)
         mkdir -p build; cd build; cmake ..; make clean; make; ./src/Conway
