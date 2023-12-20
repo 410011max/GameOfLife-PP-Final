@@ -3,4 +3,4 @@ include_directories(${GLUT_INCLUDE_DIRS} )
 
 file(GLOB SOURCES "*.cpp")
 add_executable(Conway ${SOURCES})
-target_link_libraries(Conway OpenGL::OpenGL GLUT::GLUT GLU)
+target_link_libraries(Conway OpenGL::OpenGL GLUT::GLUT GLU Threads::Threads)
