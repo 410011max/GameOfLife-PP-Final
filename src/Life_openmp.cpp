@@ -1,7 +1,7 @@
 #include "Life_openmp.h"
 #include <omp.h>
 
-#define num_threads 4
+#define num_threads 8
 
 void Life_openmp::update()
 {
@@ -13,7 +13,7 @@ void Life_openmp::update()
 		{
 			for (unsigned int j = 1; j <= width; j++)
 			{
-				int m = getNeighbors(j, i, 1);
+				int m = getNeighbors(j, i);
 				if (m == 3)
 				{
 					setNewLife(j, i, 1);

@@ -15,7 +15,7 @@ void* updateThread(void* arg) {
 	ThreadData* data = (ThreadData*)arg;
 	for (unsigned int i = data->start; i <= data->end; i++) {
 		for (unsigned int j = 1; j <= data->life->getWidth(); j++) {
-			int m = data->life->getNeighbors(j, i, 1);
+			int m = data->life->getNeighbors(j, i);
 			if (m == 3) {
 				data->life->setNewLife(j, i, 1);
 			}

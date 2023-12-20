@@ -5,10 +5,11 @@ World_cuda::World_cuda(int w, int h)
 {
 	width = w;
 	height = h;
-	grid = (short *)malloc((width + 2)*(height + 2)*sizeof(short));
-	new_grid = (short *)malloc((width + 2)*(height + 2)*sizeof(short));
+	worldSize = width * height;
+	grid = (uint8_t *)malloc(worldSize*sizeof(uint8_t));
+	new_grid = (uint8_t *)malloc(worldSize*sizeof(uint8_t));
 
-	for (unsigned int i = 0; i < (width + 2)*(height + 2); i++)
+	for (int i = 0; i < worldSize; i++)
 	{
 		grid[i] = 0;
 		new_grid[i] = 0;
@@ -21,12 +22,12 @@ World_cuda::~World_cuda(){
 
 int World_cuda::getNewLife(int x, int y)
 { 
-	return grid[x*(width + 2) + y]; 
+	return grid[x*width + y]; 
 }
 
 void World_cuda::setNewLife(int x, int y, int val)
 { 
-	new_grid[x*(width + 2) + y] = val; 
+	new_grid[x*width + y] = val; 
 }
 
 void World_cuda::swapGrids()
@@ -34,39 +35,39 @@ void World_cuda::swapGrids()
 	std::swap(grid, new_grid);
 }
 
-int World_cuda::getNeighbors(int x, int y, int val)
+int World_cuda::getNeighbors(int x, int y)
 {
 	int count = 0;
-
-	count += grid[(x-1)*(width + 2) + (y)];
-	count += grid[(x)*(width + 2) + (y-1)];
-	count += grid[(x - 1)*(width + 2) + (y-1)];
-	count += grid[(x + 1)*(width + 2) + (y)];
-
-	count += grid[(x)*(width + 2) + (y+1)];
-	count += grid[(x+1)*(width + 2) + (y+1)];
-	count += grid[(x+1)*(width + 2) + (y-1)];
-	count += grid[(x - 1)*(width + 2) + (y+1)];
+	if (x > 0 && (x < width - 1) && y > 0 && (y < height - 1)) {
+		count += grid[(x - 1)*width + (y    )];
+		count += grid[(x    )*width + (y - 1)];
+		count += grid[(x - 1)*width + (y - 1)];
+		count += grid[(x + 1)*width + (y    )];
+		count += grid[(x    )*width + (y + 1)];
+		count += grid[(x + 1)*width + (y + 1)];
+		count += grid[(x + 1)*width + (y - 1)];
+		count += grid[(x - 1)*width + (y + 1)];
+	}
 	
 	return count;
 }
 
 int World_cuda::getLifeform(int x, int y)
 { 
-	return grid[x*(width + 2) + y]; 
+	return grid[x*width + y]; 
 }
 
 void World_cuda::setLife(int x, int y, int val)
 { 
-	grid[x*(width + 2) + y] = val; 
+	grid[x*width + y] = val; 
 }
 
 void World_cuda::print()
 {
-	for (unsigned int i = 1; i <= height; i++)
+	for (int i = 0; i < height; i++)
 	{
 		cout << endl;
-		for (unsigned int j = 1; j <= width; j++)
+		for (int j = 0; j < width; j++)
 		{
 			cout << getLifeform(j, i) << " ";
 		}

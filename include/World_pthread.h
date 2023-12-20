@@ -24,7 +24,7 @@ public:
 	World_pthread(int, int);
 	~World_pthread();
 
-	int getNeighbors(int, int, int);
+	int getNeighbors(int, int);
 	int getWidth();
 	int getHeight();
 

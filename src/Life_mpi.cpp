@@ -8,7 +8,7 @@ void Life_mpi::update()
 	{
 		for (unsigned int j = 1; j <= width; j++)
 		{
-			int m = getNeighbors(j, i, 1);
+			int m = getNeighbors(j, i);
 			if (m == 3)
 			{
 				setNewLife(j, i, 1);

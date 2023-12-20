@@ -21,7 +21,7 @@ public:
 	World_mpi(int, int);
 	~World_mpi();
 
-	int getNeighbors(int, int, int);
+	int getNeighbors(int, int);
 
 	int getLifeform(int x, int y);
 	void setLife(int x, int y, int val);

@@ -34,7 +34,7 @@ void World_openmp::swapGrids()
 	std::swap(grid, new_grid);
 }
 
-int World_openmp::getNeighbors(int x, int y, int val)
+int World_openmp::getNeighbors(int x, int y)
 {
 	int count = 0;
 

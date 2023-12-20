@@ -34,7 +34,7 @@ void World_mpi::swapGrids()
 	std::swap(grid, new_grid);
 }
 
-int World_mpi::getNeighbors(int x, int y, int val)
+int World_mpi::getNeighbors(int x, int y)
 {
 	int count = 0;
 

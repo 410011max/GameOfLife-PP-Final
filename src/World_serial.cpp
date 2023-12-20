@@ -34,7 +34,7 @@ void World_serial::swapGrids()
 	std::swap(grid, new_grid);
 }
 
-int World_serial::getNeighbors(int x, int y, int val)
+int World_serial::getNeighbors(int x, int y)
 {
 	int count = 0;
 

@@ -42,7 +42,7 @@ void World_pthread::swapGrids()
 	std::swap(grid, new_grid);
 }
 
-int World_pthread::getNeighbors(int x, int y, int val)
+int World_pthread::getNeighbors(int x, int y)
 {
 	int count = 0;
 
