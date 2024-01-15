@@ -1,6 +1,16 @@
 # GameOfLife
 A fast, C++ OpenGL implementation of Conway's Game of Life with 2D & 3D version!
 
+## Different Version
+You can find different parallel version in other branch
+- serial
+- Pthread
+- openmp
+- mpi
+- CUDA
+
+And you can use benchmark branch to test speed
+
 ## Run Command:
 ```
 bash run.sh
