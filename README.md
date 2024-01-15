@@ -9,7 +9,7 @@ You can find different parallel version in other branch
 - mpi
 - CUDA
 
-And you can use benchmark branch to test speed
+And you can use `benchmark` branch to test speed
 
 ## Run Command:
 ```
