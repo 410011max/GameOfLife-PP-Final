@@ -1,6 +1,6 @@
 #include "Benchmark.h"
 
-const int size = 5000;
+const int size = 500;
 const int itration = 100; 
 Life_serial* life_serial = new Life_serial(size, size);
 Life_pthread* life_pthread = new Life_pthread(size, size);
