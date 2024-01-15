@@ -18,8 +18,8 @@ float total_time = 0.0;
 short *grid, *new_grid, *local_grid, *local_new_grid;
 
 void updateGrid(int local_height) {
-    for (unsigned int i = 1; i < local_height - 1; i++) {
-        for (unsigned int j = 1; j < WIDTH - 1; j++) {
+    for (int i = 1; i < local_height - 1; i++) {
+        for (int j = 1; j < WIDTH - 1; j++) {
             int m = 0;
             // Check the eight neighbors and wrap around at the edges
             for (int dx = -1; dx <= 1; dx++) {
@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
             new_grid[i] = 0;
         }
     }
-    for (unsigned int i = 0; i < local_height * WIDTH; i++)
+    for (int i = 0; i < local_height * WIDTH; i++)
     {
         local_grid[i] = 0;
         local_new_grid[i] = 0;
